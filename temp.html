@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Precision, Recall, and F1-Measure Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .metrics-table th, .metrics-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .metrics-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .chart {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis Report: Precision, Recall, and F1-Measure</h1>
+        <table class="metrics-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Precision</td>
+                    <td>85%</td>
+                </tr>
+                <tr>
+                    <td>Recall</td>
+                    <td>668%</td>
+                </tr>
+                <tr>
+                    <td>F1-Measure</td>
+                    <td>61.3%</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="summary">
+            <p><strong>Precision:</strong> Indicates the percentage of correctly identified vulnerabilities out of all identified vulnerabilities. An 85% precision rate means that 85 out of 100 identified issues are valid vulnerabilities.</p>
+            <p><strong>Recall:</strong> Reflects the percentage of actual vulnerabilities that were correctly identified. A recall rate of 68% means that  out of 100 total vulnerabilities present in the code were detected.</p>
+            <p><strong>F1-Measure:</strong> The harmonic mean of precision and recall. It provides a balance between the two, with an F1-Measure of 61.3% representing a good trade-off between precision and recall.</p>
+        </div>
+        <div class="chart">
+        
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to create a chart using Chart.js
+        const canvas = document.getElementById('metricsChart');
+        const ctx = canvas.getContext('2d');
+
+        // Create a Chart.js bar chart
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Precision', 'Recall', 'F1-Measure'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [85, , 81.3],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

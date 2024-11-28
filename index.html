@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mythril Vulnerabilities List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #e8f5e9;
+            margin: 10px 0;
+            padding: 15px;
+            border-left: 5px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .title {
+            font-weight: bold;
+        }
+        .description {
+            margin-top: 5px;
+        }
+        .example {
+            margin-top: 10px;
+            font-family: "Courier New", Courier, monospace;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vulnerabilities Detected by Mythril</h1>
+        <ul>
+            <li>
+                <div class="title">Reentrancy</div>
+                <div class="description">Occurs when a contract allows an external call before updating its state, allowing potential repeated call exploitation.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    function withdraw(uint amount) public {<br>
+                        require(balances[msg.sender] >= amount);<br>
+                        msg.sender.call{value: amount}("");<br>
+                        balances[msg.sender] -= amount;<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Integer Overflow and Underflow</div>
+                <div class="description">When arithmetic operations exceed the maximum or minimum integer value, causing unexpected behavior or vulnerabilities.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    uint8 num = 255;<br>
+                    num += 1; // Overflow: num becomes 0
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Unhandled Exceptions</div>
+                <div class="description">Improper handling of exceptions can leave a contract in an inconsistent state or open to attacks.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    someContract.call("nonexistentFunction"); // Return value not checked
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Transaction Ordering Dependence (TOD)</div>
+                <div class="description">The outcome of a contract's state depends on the order of transactions, potentially leading to front-running attacks.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    if (block.number % 2 == 0) {<br>
+                        // perform some action<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Timestamp Dependence</div>
+                <div class="description">Using block timestamps for decision-making can be manipulated by miners to some extent.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    if (block.timestamp % 2 == 0) {<br>
+                        // perform some action<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Unchecked Call Return Values</div>
+                <div class="description">Failing to check the return value of an external call can allow unnoticed transaction failures or exploits.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    address(receiver).call{value: amount}(""); // Return value not checked
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Denial of Service (DoS)</div>
+                <div class="description">An attacker can make a contract unusable or inaccessible by blocking functions or flooding with requests.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    function setWinner(address winner) public {<br>
+                        require(winner.send(prizeAmount)); // Fails if winner is a contract
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Gas Limit and Loops</div>
+                <div class="description">Excessive gas cost of executing loops or functions can make transactions fail or be exploitable.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    for (uint i = 0; i < largeArray.length; i++) {<br>
+                        // perform action<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Use of Deprecated Functions</div>
+                <div class="description">Using outdated functions with known vulnerabilities or unexpected behavior.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    selfdestruct(msg.sender); // Deprecated
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Access Control Issues</div>
+                <div class="description">Functions or state variables without proper protection may be accessed by unauthorized users.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    function setOwner(address newOwner) public {<br>
+                        owner = newOwner;<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Selfdestruct Vulnerability</div>
+                <div class="description">If an attacker can trigger selfdestruct, the contract and all funds may be destroyed.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    function destroy() public {<br>
+                        selfdestruct(msg.sender);<br>
+                    }
+                    </code>
+                </div>
+            </li>
+            <li>
+                <div class="title">Authorization through tx.origin</div>
+                <div class="description">Using tx.origin for authentication is insecure and can be exploited via phishing attacks.</div>
+                <div class="example">
+                    Example: <br>
+                    <code>
+                    require(tx.origin == owner); // Vulnerable to phishing
+                    </code>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
